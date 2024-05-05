@@ -1,10 +1,14 @@
 import { mergeApplicationConfig, ApplicationConfig } from '@angular/core';
 import { provideServerRendering } from '@angular/platform-server';
 import { appConfig } from './app.config';
+import { provideHttpClient, withFetch } from '@angular/common/http';
+import { InitProvider } from './init.service';
 
 const serverConfig: ApplicationConfig = {
   providers: [
-    provideServerRendering()
+    InitProvider,
+    provideServerRendering(),
+    provideHttpClient(withFetch())
   ]
 };
 

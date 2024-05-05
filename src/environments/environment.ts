@@ -28,7 +28,11 @@ export const environment = {
    * The environment of the Coveo platform.
    * Can be `prod`, 'hipaa', `stg', 'dev',
    */
-  platformEnvironment: 'prod'
+  platformEnvironment: 'prod',
+
+  searchEndpoint: 'http://localhost:3000/ssr/search'
+
+  
 };
 
 /*

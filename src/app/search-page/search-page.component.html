@@ -1,0 +1,25 @@
+<div *ngIf="isReady">
+  <div class="row justify-center">
+    <div class="col col-full col-sm-8 mb-5">
+      <app-search-box [staticState]="staticState.controllers.searchBox.state" [controller]="hydratedState?.controllers?.searchBox"></app-search-box>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col col-full col-sm-3">
+      facets here!
+    </div>
+    <div class="col col-full col-sm-9 pl-3">
+      <div class="row vertical-center mb-4">
+        <div class="col-half">
+          query summary here!
+        </div>
+        <div class="col col-half justify-end">
+          sort here!
+        </div>
+      </div>
+      <app-result-list [staticState]="staticState.controllers.resultList.state" [controller]="hydratedState?.controllers?.resultList"></app-result-list>
+      pager here!
+    </div>
+  </div>
+</div>
