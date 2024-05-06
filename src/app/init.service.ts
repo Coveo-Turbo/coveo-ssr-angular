@@ -12,15 +12,16 @@ export class InitService {
   ) {}
 
   public async init() {
-    const res = await fetch(this.searchService.tokenEndpoint);
-    const data = await res.json();
-    const {token} = data;
+    // Fetch Token here!! 
+    // const res = await fetch(this.searchService.tokenEndpoint);
+    // const data = await res.json();
+    // const {token} = data;
 
     // if (!token) {
     //   this.route.navigate(['error'], {state: {errorMessage: data.message}});
     //   return;
     // }
-    this.searchService.init(token);
+    this.searchService.init('token');
   }
 }
 

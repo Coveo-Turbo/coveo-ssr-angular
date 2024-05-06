@@ -6,8 +6,6 @@ import helmet from 'helmet';
 import {ensureTokenGenerated} from './middlewares/searchToken';
 import {errorHandler} from './middlewares/errorHandler';
 import {environmentCheck} from './middlewares/environmentCheck';
-import { fetchSearchStaticState, prepareSearchEngineConfig } from './middlewares/searchState';
-import { SearchStaticState } from './middlewares/engine';
 
 const app = express();
 
@@ -26,20 +24,6 @@ app.get<Record<string, string>, any, {token: string}>(
   }
 );
 
-app.get<Record<string, string>, any, {searchStaticState: SearchStaticState}>(
-  '/ssr/search/state',
-  fetchSearchStaticState,
-  (req, res) => {
-    res.json({searchStaticState: req.body.searchStaticState});
-  }
-);
-app.get<Record<string, string>, any, {searchEngineConfig:any}>(
-  '/ssr/search/config',
-  prepareSearchEngineConfig,
-  (req, res) => {
-    res.json({config: req.body.searchEngineConfig});
-  }
-);
 app.use(errorHandler);
 
 export default app;

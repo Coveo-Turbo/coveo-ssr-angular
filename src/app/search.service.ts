@@ -17,6 +17,9 @@ import {
   InferHydratedState,
   SearchEngineDefinition,
   defineSearchEngine,
+  defineQuerySummary,
+  definePager,
+  defineSort,
 } from '@coveo/headless/ssr';
 import {environment} from '../environments/environment';
 
@@ -28,38 +31,13 @@ export type SearchHydratedState = InferHydratedState<ReturnType<SearchService['g
 })
 export class SearchService {
   private _token!: string;
-  // private _config!: any;
   private _staticState!: SearchStaticState;
   public constructor() {
   }
 
   public async init(accessToken: string) {
     this._token = accessToken;
-    // this._config = await this.fetchConfig()
   }
-
-  fetchConfig = async () => {
-    const res = await fetch(this.configEndpoint);
-    const data = await res.json();
-    const config = data.config;
-    return config;
-  }
-
-  // // Function to fetch static state
-  // fetchStaticState(){
-  //   return this.engineDefinition.fetchStaticState({
-  //     controllers: {
-  //         context: {
-  //           initialState: {
-  //             values: {testjfa:'value1'},
-  //           },
-  //         },
-  //         // searchParameterManager: {
-  //         //   initialState: {parameters: searchParameters},
-  //         // },
-  //       }
-  //   });
-  // }
 
   // Function to fetch static state
   public fetchStaticState = (options: any) => {
@@ -108,6 +86,8 @@ export class SearchService {
         context: defineContext(),
         searchBox: defineSearchBox(),
         resultList: defineResultList(),
+        querySummary: defineQuerySummary(),
+        pager: definePager(),
         urlManager: defineUrlManager(),
         authorFacet: defineFacet({ options: { field: "author" } }),
         sourceFacet: defineFacet({ options: { field: "source" } }),
