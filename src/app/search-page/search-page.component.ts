@@ -3,7 +3,9 @@ import { SearchBoxComponent } from '../search-box/search-box.component';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ResultListComponent } from '../result-list/result-list.component';
 import { SearchService, SearchHydratedState, SearchStaticState} from '../search.service';
-// import { SearchHydratedState, SearchStaticState, hydrateStaticState } from '../core/engine';
+import { ActivatedRoute, Router } from '@angular/router';
+import {UrlManager as UrlManagerController} from '@coveo/headless/ssr';
+import { FacetListComponent } from '../facet-list/facet-list.component';
 
 @Component({
   selector: 'app-search-page',
@@ -11,7 +13,8 @@ import { SearchService, SearchHydratedState, SearchStaticState} from '../search.
   imports: [
     CommonModule,
     SearchBoxComponent,
-    ResultListComponent
+    ResultListComponent,
+    FacetListComponent
   ],
   templateUrl: './search-page.component.html',
   styleUrl: './search-page.component.scss'
@@ -19,27 +22,48 @@ import { SearchService, SearchHydratedState, SearchStaticState} from '../search.
 export class SearchPageComponent {
   @Input() staticState!: SearchStaticState;
   hydratedState?: SearchHydratedState;
+  private urlManager!: UrlManagerController;
+  private unsubscribeUrlManager!: Function | undefined;
 
   constructor(
     @Inject(PLATFORM_ID) private platformID: Object, 
-    private searchService: SearchService) {
+    private searchService: SearchService,
+    private route: ActivatedRoute,
+    private router: Router) {
   }
 
   ngOnInit(): void {
     if(isPlatformBrowser(this.platformID)){
+      window.addEventListener('hashchange', this.onHashChange);
       this.hydrateState();
+      
     }
   }
 
+  ngOnDestroy(): void {
+    this.unsubscribeUrlManager?.()
+  }
+
+  private get fragment() {
+    return decodeURIComponent(window.location.hash.slice(1));
+  }
+  private onHashChange = () => {
+    this.hydratedState?.controllers.urlManager.synchronize(this.fragment);
+  };
+
   private async hydrateState() {
     console.log('hydrateState...');
+    
     if (this.staticState) {
-      const { context, searchParameterManager } = this.staticState.controllers;
+      const { context, searchParameterManager, urlManager } = this.staticState.controllers;
       const result = await this.searchService.hydrateStaticState({
         searchAction: this.staticState.searchAction,
         controllers: {
           context: {
             initialState: context.state,
+          },
+          urlManager: {
+            initialState: urlManager.state
           },
           searchParameterManager: {
             initialState: searchParameterManager.state,
@@ -52,6 +76,18 @@ export class SearchPageComponent {
         controllers: result.controllers
       };
     }
+
+    
+    this.unsubscribeUrlManager = this.hydratedState?.controllers.urlManager.subscribe(() => this.updateHash());
+    // this.hydratedState?.controllers.urlManager.synchronize(this.fragment);
+  }
+
+  private updateHash() {
+    history.pushState(
+      null,
+      document.title,
+      `${this.router.url.split('#')[0]}#${this.hydratedState?.controllers.urlManager.state.fragment}`
+    );
   }
 
   public isReady() {

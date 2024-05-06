@@ -1,4 +1,4 @@
-<div *ngIf="isReady">
+<div class="content" *ngIf="isReady">
   <div class="row justify-center">
     <div class="col col-full col-sm-8 mb-5">
       <app-search-box [staticState]="staticState.controllers.searchBox.state" [controller]="hydratedState?.controllers?.searchBox"></app-search-box>
@@ -7,9 +7,9 @@
 
   <div class="row">
     <div class="col col-full col-sm-3">
-      facets here!
+      <app-facet-list [staticState]="staticState" [hydratedState]="hydratedState"></app-facet-list>
     </div>
-    <div class="col col-full col-sm-9 pl-3">
+    <div class="col col-full col-sm-9 pl-5">
       <div class="row vertical-center mb-4">
         <div class="col-half">
           query summary here!

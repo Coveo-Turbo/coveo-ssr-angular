@@ -45,8 +45,8 @@ export class SearchBoxComponent {
   public constructor() {}
 
   ngOnChanges() {
-    console.log('Received input: ', this.controller);
     if(this.controller){
+      console.log('Received search-box controller: ', this.controller);
       this.unsubscribe = this.controller.subscribe(() => this.state = {
           ...this.state,
           ...this.controller?.state,

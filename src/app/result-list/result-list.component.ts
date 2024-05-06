@@ -17,8 +17,8 @@ export class ResultListComponent {
   state!: ResultListState;
 
   ngOnChanges() {
-    console.log('Received input: ', this.controller);
     if(this.controller){
+      console.log('Received result-list controller: ', this.controller);
       this.unsubscribe = this.controller.subscribe(() => this.state = {
           ...this.state,
           ...this.controller?.state,
@@ -28,15 +28,6 @@ export class ResultListComponent {
   }
   public ngOnInit() {
     this.state = {...this.staticState }
-    // console.log('Before subscribing result list controller !!!!!')
-  //   this.unsubscribe = this.controller?.subscribe?.(() => {
-  //     console.log('Updating State !!!!!')
-  //     this.state = {
-  //       ...this.state,
-  //       ...this.controller?.state,
-  //     }
-  // });
-    // console.log('result', this.state.results)
   }
 
   ngOnDestroy(): void {

@@ -12,6 +12,7 @@ import {
   defineSearchBox,
   defineContext,
   defineSearchParameterManager,
+  defineUrlManager,
   InferStaticState,
   InferHydratedState,
   SearchEngineDefinition,
@@ -107,6 +108,7 @@ export class SearchService {
         context: defineContext(),
         searchBox: defineSearchBox(),
         resultList: defineResultList(),
+        urlManager: defineUrlManager(),
         authorFacet: defineFacet({ options: { field: "author" } }),
         sourceFacet: defineFacet({ options: { field: "source" } }),
         searchParameterManager: defineSearchParameterManager()
