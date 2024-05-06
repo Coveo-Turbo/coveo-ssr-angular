@@ -57,7 +57,7 @@ export class FacetComponent implements OnInit {
   }
 
   public get facetValues(): FacetValue[] {
-    return this.controller?.state.values || [];
+    return this.state.values || [];
   }
 
   ngOnChanges() {
