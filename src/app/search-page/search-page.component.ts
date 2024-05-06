@@ -6,6 +6,7 @@ import { SearchService, SearchHydratedState, SearchStaticState} from '../search.
 import { ActivatedRoute, Router } from '@angular/router';
 import {UrlManager as UrlManagerController} from '@coveo/headless/ssr';
 import { FacetListComponent } from '../facet-list/facet-list.component';
+import { QuerySummaryComponent } from '../query-summary/query-summary.component';
 
 @Component({
   selector: 'app-search-page',
@@ -14,7 +15,8 @@ import { FacetListComponent } from '../facet-list/facet-list.component';
     CommonModule,
     SearchBoxComponent,
     ResultListComponent,
-    FacetListComponent
+    FacetListComponent,
+    QuerySummaryComponent
   ],
   templateUrl: './search-page.component.html',
   styleUrl: './search-page.component.scss'
@@ -88,9 +90,5 @@ export class SearchPageComponent {
       document.title,
       `${this.router.url.split('#')[0]}#${this.hydratedState?.controllers.urlManager.state.fragment}`
     );
-  }
-
-  public isReady() {
-    return !!this.hydratedState;
   }
 }

@@ -1,4 +1,4 @@
-<div class="content" *ngIf="isReady">
+<div class="content">
   <div class="row justify-center">
     <div class="col col-full col-sm-8 mb-5">
       <app-search-box [staticState]="staticState.controllers.searchBox.state" [controller]="hydratedState?.controllers?.searchBox"></app-search-box>
@@ -12,7 +12,7 @@
     <div class="col col-full col-sm-9 pl-5">
       <div class="row vertical-center mb-4">
         <div class="col-half">
-          query summary here!
+          <app-query-summary [staticState]="staticState.controllers.querySummary.state" [controller]="hydratedState?.controllers?.querySummary"></app-query-summary>
         </div>
         <div class="col col-half justify-end">
           sort here!
