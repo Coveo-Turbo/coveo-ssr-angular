@@ -3,19 +3,24 @@ import { ResolveFn } from '@angular/router';
 import { SearchService, SearchStaticState } from './search.service';
 import { isPlatformServer } from '@angular/common';
 import { buildSSRSearchParameterSerializer } from '@coveo/headless/ssr';
+import { sortCriterias } from './utils/sortUtils';
 
-const fragmenKey = makeStateKey<string>("fragment");
 export const searchStateResolver: ResolveFn<Promise<any>|SearchStaticState|null> = (route, state) => {
+
   const platformId = inject(PLATFORM_ID);
   const transferState = inject(TransferState);
   const searchService = inject(SearchService);
+  
   if(isPlatformServer(platformId)){
+    
     console.log("this block runs only on server");
     console.log("server-side staticState FETCHING");
     console.log("route fragment", route.fragment, route.queryParams);
+    
     const {toSearchParameters} = buildSSRSearchParameterSerializer();
     const searchParameters = toSearchParameters(new URLSearchParams(route.queryParams!));
     console.log('searchParameters', searchParameters);
+    
     return searchService.fetchStaticState({
       controllers: {
         context: {
@@ -28,6 +33,11 @@ export const searchStateResolver: ResolveFn<Promise<any>|SearchStaticState|null>
         },
         searchParameterManager: {
           initialState: {parameters: searchParameters},
+        },
+        sort:{
+          initialState: {
+            criterion: sortCriterias[0].criterion
+          }
         }
       }
     }).then((searchStaticState) => {
@@ -39,7 +49,6 @@ export const searchStateResolver: ResolveFn<Promise<any>|SearchStaticState|null>
       
     })
   } else {
-    transferState.set(fragmenKey, route.fragment);
     return transferState.get(searchService.staticStateKey, null);
   }  
 };

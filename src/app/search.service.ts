@@ -88,6 +88,7 @@ export class SearchService {
         resultList: defineResultList(),
         querySummary: defineQuerySummary(),
         pager: definePager(),
+        sort: defineSort(),
         urlManager: defineUrlManager(),
         authorFacet: defineFacet({ options: { field: "author" } }),
         sourceFacet: defineFacet({ options: { field: "source" } }),

@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {UrlManager as UrlManagerController} from '@coveo/headless/ssr';
 import { FacetListComponent } from '../facet-list/facet-list.component';
 import { QuerySummaryComponent } from '../query-summary/query-summary.component';
+import { SortComponent } from '../sort/sort.component';
 
 @Component({
   selector: 'app-search-page',
@@ -16,7 +17,8 @@ import { QuerySummaryComponent } from '../query-summary/query-summary.component'
     SearchBoxComponent,
     ResultListComponent,
     FacetListComponent,
-    QuerySummaryComponent
+    QuerySummaryComponent,
+    SortComponent
   ],
   templateUrl: './search-page.component.html',
   styleUrl: './search-page.component.scss'
@@ -57,7 +59,7 @@ export class SearchPageComponent {
     console.log('hydrateState...');
     
     if (this.staticState) {
-      const { context, searchParameterManager, urlManager } = this.staticState.controllers;
+      const { context, searchParameterManager, urlManager, sort } = this.staticState.controllers;
       const result = await this.searchService.hydrateStaticState({
         searchAction: this.staticState.searchAction,
         controllers: {
@@ -66,6 +68,9 @@ export class SearchPageComponent {
           },
           urlManager: {
             initialState: urlManager.state
+          },
+          sort: {
+            initialState: sort.state
           },
           searchParameterManager: {
             initialState: searchParameterManager.state,

@@ -15,7 +15,7 @@
           <app-query-summary [staticState]="staticState.controllers.querySummary.state" [controller]="hydratedState?.controllers?.querySummary"></app-query-summary>
         </div>
         <div class="col col-half justify-end">
-          sort here!
+          <app-sort [staticState]="staticState.controllers.sort.state" [controller]="hydratedState?.controllers?.sort"></app-sort>
         </div>
       </div>
       <app-result-list [staticState]="staticState.controllers.resultList.state" [controller]="hydratedState?.controllers?.resultList"></app-result-list>
