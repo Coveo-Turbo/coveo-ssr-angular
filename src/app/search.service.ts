@@ -15,7 +15,9 @@ import {
   defineUrlManager,
   InferStaticState,
   InferHydratedState,
+  InferControllersMapFromDefinition,
   SearchEngineDefinition,
+  defineResultsPerPage,
   defineSearchEngine,
   defineQuerySummary,
   definePager,
@@ -30,13 +32,25 @@ export type SearchHydratedState = InferHydratedState<ReturnType<SearchService['g
   providedIn: 'root',
 })
 export class SearchService {
-  private _token!: string;
-  private _staticState!: SearchStaticState;
-  public constructor() {
-  }
+
+  private engineDefinition!: SearchEngineDefinition<{
+    context: ReturnType<typeof defineContext>,
+    searchBox: ReturnType<typeof defineSearchBox>,
+    resultList: ReturnType<typeof defineResultList>,
+    querySummary: ReturnType<typeof defineQuerySummary>,
+    pager: ReturnType<typeof definePager>,
+    resultsPerPage: ReturnType<typeof defineResultsPerPage>,
+    sort: ReturnType<typeof defineSort>,
+    urlManager: ReturnType<typeof defineUrlManager>,
+    authorFacet: ReturnType<typeof defineFacet>,
+    sourceFacet: ReturnType<typeof defineFacet>,
+    searchParameterManager: ReturnType<typeof defineSearchParameterManager>
+  }>;
+  
+  public constructor() {}
 
   public async init(accessToken: string) {
-    this._token = accessToken;
+    this.engineDefinition = defineSearchEngine(this.config(accessToken));
   }
 
   // Function to fetch static state
@@ -49,27 +63,8 @@ export class SearchService {
     return this.engineDefinition.hydrateStaticState(state);
   }
 
-  get staticState() {
-    return this._staticState;
-  }
-
-  get staticStateEndpoint() {
-    return `${this.searchEndpoint}/state`;
-  };
-
-  get configEndpoint() {
-    return `${this.searchEndpoint}/config`;
-  };
-  get searchEndpoint() {
-    return environment.searchEndpoint;
-  };
-
   get tokenEndpoint() {
     return environment.defaultTokenEndpoint;
-  }
-
-  get engineDefinition() {
-    return defineSearchEngine(this.config(this._token));
   }
 
   get staticStateKey() {
@@ -87,7 +82,8 @@ export class SearchService {
         searchBox: defineSearchBox(),
         resultList: defineResultList(),
         querySummary: defineQuerySummary(),
-        pager: definePager(),
+        pager: definePager({options: {numberOfPages: 3} }),
+        resultsPerPage: defineResultsPerPage(),
         sort: defineSort(),
         urlManager: defineUrlManager(),
         authorFacet: defineFacet({ options: { field: "author" } }),

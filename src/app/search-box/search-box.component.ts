@@ -6,7 +6,6 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatListModule} from '@angular/material/list';
-import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSelectModule} from '@angular/material/select';
 import {SearchBoxState, SearchBox as SearchBoxController} from '@coveo/headless/ssr';
 import {FormControl} from '@angular/forms';
@@ -22,7 +21,6 @@ import { CommonModule } from '@angular/common';
     ReactiveFormsModule,
     MatInputModule,
     MatListModule,
-    MatPaginatorModule,
     MatSelectModule,
     MatButtonModule,
   ],

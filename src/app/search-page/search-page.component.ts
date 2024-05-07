@@ -8,6 +8,7 @@ import {UrlManager as UrlManagerController} from '@coveo/headless/ssr';
 import { FacetListComponent } from '../facet-list/facet-list.component';
 import { QuerySummaryComponent } from '../query-summary/query-summary.component';
 import { SortComponent } from '../sort/sort.component';
+import { PagerComponent } from '../pager/pager.component';
 
 @Component({
   selector: 'app-search-page',
@@ -18,7 +19,8 @@ import { SortComponent } from '../sort/sort.component';
     ResultListComponent,
     FacetListComponent,
     QuerySummaryComponent,
-    SortComponent
+    SortComponent,
+    PagerComponent
   ],
   templateUrl: './search-page.component.html',
   styleUrl: './search-page.component.scss'

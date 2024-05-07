@@ -29,16 +29,19 @@ export const searchStateResolver: ResolveFn<Promise<any>|SearchStaticState|null>
           },
         },
         urlManager: {
-          initialState: {fragment: objectToQueryString(route.queryParams) || ''},
+          initialState: { fragment: objectToQueryString(route.queryParams) || '' },
         },
         searchParameterManager: {
-          initialState: {parameters: searchParameters},
+          initialState: { parameters: searchParameters },
         },
-        sort:{
-          initialState: {
-            criterion: sortCriterias[0].criterion
-          }
-        }
+        // resultsPerPage: {
+        //   initialState: { numberOfResults: 10 },
+        // },
+        // sort:{
+        //   initialState: {
+        //     criterion: sortCriterias[0].criterion
+        //   }
+        // }
       }
     }).then((searchStaticState) => {
       console.log("server-side staticState FETCHED", searchStaticState);
