@@ -1,0 +1,22 @@
+<mat-toolbar>
+  <mat-toolbar-row>
+    <button [routerLink]="['/']" mat-icon-button color="primary" aria-label="home icon button with a home icon">
+      <mat-icon>home</mat-icon>
+    </button>
+    <span class="appName">C O V E O - S S R - A N G U L A R</span>
+    
+    <nav mat-tab-nav-bar [tabPanel]="tabPanel">
+      @for (link of links; track link) {
+        <a mat-tab-link
+          (click)="activeLink = link.title"
+          [active]="activeLink == link.link"
+          [routerLink]="link.link"> {{link.title}} </a>
+      }
+    </nav>
+    <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
+    <span class="spacer"></span>
+    <button [routerLink]="['/search']" mat-icon-button color="primary" aria-label="search button with a search icon">
+      <mat-icon>search</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
