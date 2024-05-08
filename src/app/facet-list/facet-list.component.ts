@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import { SearchHydratedState, SearchStaticState} from '../search.service';
+import { SearchHydratedState, SearchStaticState} from '../engine.service';
 import { FacetComponent } from '../facet/facet.component';
 
 @Component({

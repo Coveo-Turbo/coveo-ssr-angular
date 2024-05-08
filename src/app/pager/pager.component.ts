@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import {MatPaginatorModule, PageEvent} from '@angular/material/paginator';
 import {PagerState, Pager as PagerController, ResultsPerPageState, ResultsPerPage as ResultsPerPageController} from '@coveo/headless/ssr';
-import { SearchHydratedState, SearchStaticState } from '../search.service';
+import { SearchHydratedState, SearchStaticState } from '../engine.service';
 
 @Component({
   selector: 'app-pager',

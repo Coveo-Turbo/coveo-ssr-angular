@@ -1,13 +1,13 @@
 import {Router} from '@angular/router';
 import {Injectable, APP_INITIALIZER} from '@angular/core';
-import { SearchService } from './search.service';
+import { EngineService } from './engine.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class InitService {
   public constructor(
-    private searchService: SearchService,
+    private searchService: EngineService,
     private route: Router
   ) {}
 

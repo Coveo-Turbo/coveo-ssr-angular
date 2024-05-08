@@ -1,4 +1,4 @@
-import {SortOrder, buildRelevanceSortCriterion, buildDateSortCriterion, SortByRelevancy, SortByDate} from '@coveo/headless/ssr';
+import { SortOrder, buildRelevanceSortCriterion, buildDateSortCriterion, SortByRelevancy, SortByDate } from '@coveo/headless/ssr';
 
 export const sortCriterias = [
   {

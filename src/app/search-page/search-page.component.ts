@@ -2,9 +2,9 @@ import { Component, Input, Inject, PLATFORM_ID } from '@angular/core';
 import { SearchBoxComponent } from '../search-box/search-box.component';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ResultListComponent } from '../result-list/result-list.component';
-import { SearchService, SearchHydratedState, SearchStaticState} from '../search.service';
+import { EngineService, EngineType, SearchHydratedState, SearchStaticState } from '../engine.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import {UrlManager as UrlManagerController} from '@coveo/headless/ssr';
+import { UrlManager as UrlManagerController } from '@coveo/headless/ssr';
 import { FacetListComponent } from '../facet-list/facet-list.component';
 import { QuerySummaryComponent } from '../query-summary/query-summary.component';
 import { SortComponent } from '../sort/sort.component';
@@ -32,17 +32,17 @@ export class SearchPageComponent {
   private unsubscribeUrlManager!: Function | undefined;
 
   constructor(
-    @Inject(PLATFORM_ID) private platformID: Object, 
-    private searchService: SearchService,
+    @Inject(PLATFORM_ID) private platformID: Object,
+    private engineService: EngineService,
     private route: ActivatedRoute,
     private router: Router) {
   }
 
   ngOnInit(): void {
-    if(isPlatformBrowser(this.platformID)){
+    if (isPlatformBrowser(this.platformID)) {
       window.addEventListener('hashchange', this.onHashChange);
       this.hydrateState();
-      
+
     }
   }
 
@@ -59,10 +59,11 @@ export class SearchPageComponent {
 
   private async hydrateState() {
     console.log('hydrateState...');
-    
+
     if (this.staticState) {
       const { context, searchParameterManager, urlManager, sort } = this.staticState.controllers;
-      const result = await this.searchService.hydrateStaticState({
+      const engineType: EngineType = 'search'
+      const result = await this.engineService.hydrateStaticState(engineType, {
         searchAction: this.staticState.searchAction,
         controllers: {
           context: {
@@ -86,7 +87,7 @@ export class SearchPageComponent {
       };
     }
 
-    
+
     this.unsubscribeUrlManager = this.hydratedState?.controllers.urlManager.subscribe(() => this.updateHash());
     // this.hydratedState?.controllers.urlManager.synchronize(this.fragment);
   }
