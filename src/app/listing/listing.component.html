@@ -1,0 +1,12 @@
+<p>listing works!</p>
+<div *ngIf="isReady()">
+  <div class="content" role="main">
+    <div class="row">
+      <div class="col col-full">
+        <app-result-list [staticState]="staticState.controllers.resultList.state" [controller]="hydratedState?.controllers?.resultList"></app-result-list>
+      </div>
+    </div>
+  </div>
+</div>
+
+
