@@ -1,15 +1,46 @@
-import { PLATFORM_ID, TransferState, inject, makeStateKey } from '@angular/core';
+import { PLATFORM_ID, TransferState, inject } from '@angular/core';
 import { ResolveFn } from '@angular/router';
-import { SearchService, SearchStaticState } from './search.service';
+import { EngineService, EngineType, SearchStaticState } from './engine.service';
 import { isPlatformServer } from '@angular/common';
 import { buildSSRSearchParameterSerializer } from '@coveo/headless/ssr';
-import { sortCriterias } from './utils/sortUtils';
 
 export const searchStateResolver: ResolveFn<Promise<any>|SearchStaticState|null> = (route, state) => {
 
   const platformId = inject(PLATFORM_ID);
   const transferState = inject(TransferState);
-  const searchService = inject(SearchService);
+  const engineService = inject(EngineService);
+  const engineType:EngineType = 'search';
+  const searchStaticStateKey = engineService.staticStateKeys.get(engineType)!;
+
+  const {toSearchParameters} = buildSSRSearchParameterSerializer();
+  const searchParameters = toSearchParameters(new URLSearchParams(route.fragment! || route.queryParams!));
+  console.log('searchParameters', searchParameters);
+
+  const staticStateOptions = {
+    controllers: {
+      context: {
+        initialState: {
+          values: {testjfa:'value1'},
+        },
+      },
+      urlManager: {
+        initialState: { fragment: route.fragment || objectToQueryString(route.queryParams) || '' },
+      },
+      searchParameterManager: {
+        initialState: { parameters: searchParameters },
+      },
+      // resultsPerPage: {
+      //   initialState: { numberOfResults: 10 },
+      // },
+      // sort:{
+      //   initialState: {
+      //     criterion: sortCriterias[0].criterion
+      //   }
+      // }
+    }
+  }
+
+  console.log("searchStateResolver:::");
   
   if(isPlatformServer(platformId)){
     
@@ -17,42 +48,15 @@ export const searchStateResolver: ResolveFn<Promise<any>|SearchStaticState|null>
     console.log("server-side staticState FETCHING");
     console.log("route fragment", route.fragment, route.queryParams);
     
-    const {toSearchParameters} = buildSSRSearchParameterSerializer();
-    const searchParameters = toSearchParameters(new URLSearchParams(route.queryParams!));
-    console.log('searchParameters', searchParameters);
-    
-    return searchService.fetchStaticState({
-      controllers: {
-        context: {
-          initialState: {
-            values: {testjfa:'value1'},
-          },
-        },
-        urlManager: {
-          initialState: { fragment: objectToQueryString(route.queryParams) || '' },
-        },
-        searchParameterManager: {
-          initialState: { parameters: searchParameters },
-        },
-        // resultsPerPage: {
-        //   initialState: { numberOfResults: 10 },
-        // },
-        // sort:{
-        //   initialState: {
-        //     criterion: sortCriterias[0].criterion
-        //   }
-        // }
-      }
-    }).then((searchStaticState) => {
-      console.log("server-side staticState FETCHED", searchStaticState);
-      console.log('transferState server before', transferState)
-      transferState.set(searchService.staticStateKey, searchStaticState);
-      // console.log('transferState server after', transferState)
-      return searchStaticState;
-      
-    })
+    return engineService.fetchStaticState(engineType, staticStateOptions);
+
   } else {
-    return transferState.get(searchService.staticStateKey, null);
+
+    if(transferState.hasKey(searchStaticStateKey)) {
+      return transferState.get(searchStaticStateKey, null);
+    } else {
+      return engineService.fetchStaticState(engineType, staticStateOptions)
+    }    
   }  
 };
 

@@ -6,6 +6,7 @@ import { HomeComponent } from './home/home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { InitProvider } from './init.service';
+import { ToolbarMenuComponent } from './toolbar-menu/toolbar-menu.component';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,7 @@ import { InitProvider } from './init.service';
   imports: [
     CommonModule,
     RouterModule,
+    ToolbarMenuComponent,
     HomeComponent,
     ErrorComponent
   ],
