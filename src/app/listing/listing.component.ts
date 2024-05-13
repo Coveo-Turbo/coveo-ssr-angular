@@ -67,8 +67,9 @@ export class ListingComponent implements OnInit {
         controllers: result.controllers
       };
 
-      this.hydratedState.controllers.searchParameterManager.synchronize(this.searchParameters)
-      
+      if(JSON.stringify(searchParameterManager.state.parameters) !== JSON.stringify(this.searchParameters)){
+        this.hydratedState.controllers.searchParameterManager.synchronize(this.searchParameters);
+      };
     }
   }
 

@@ -12,7 +12,7 @@ export const listingStateResolver: ResolveFn<Promise<any>|ListingStaticState|nul
   const engineType:EngineType = 'listing';
   const staticStateKey = engineService.staticStateKeys.get(engineType)!;
 
-  const searchParameters = {aq: `@author=${route.url}`};
+  const searchParameters = {aq: `@author="${route.url}"`};
   console.log('searchParameters', searchParameters);
 
   const staticStateOptions = {

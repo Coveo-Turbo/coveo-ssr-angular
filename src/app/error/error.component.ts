@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, Inject, PLATFORM_ID } from '@angular/core';
 
 @Component({
   selector: 'app-error',
@@ -10,11 +10,16 @@ import { Component } from '@angular/core';
 })
 export class ErrorComponent {
 
-  public constructor() {}
+  public constructor(@Inject(PLATFORM_ID) private platformID: Object,) {}
 
   public ngOnInit(): void {}
 
   public get errorMessage() {
-    return history.state.errorMessage || '';
+    if (isPlatformBrowser(this.platformID)) {
+      return history.state.errorMessage || '';
+    } else {
+      return ''
+    }
+    
   }
 }

@@ -33,19 +33,19 @@ export class ToolbarMenuComponent {
   constructor(private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    // Using Router to get URL
-    console.log('Current path:', this.router.url);
+    // // Using Router to get URL
+    // console.log('Current path:', this.router.url);
 
-    // Using ActivatedRoute to get URL segments
-    this.route.url.subscribe(urlSegments => {
-      console.log('URL Segments:', urlSegments.map(s => s.path).join('/'));
-    });
+    // // Using ActivatedRoute to get URL segments
+    // this.route.url.subscribe(urlSegments => {
+    //   console.log('URL Segments:', urlSegments.map(s => s.path).join('/'));
+    // });
 
     this.router.events.pipe(
       filter((event): event is NavigationEnd => event instanceof NavigationEnd),
       map((event: NavigationEnd) => event.url)
     ).subscribe(url => {
-      console.log('url >>> ', url);
+      // console.log('url >>> ', url);
       this.activeLink = url;
     })
   }
