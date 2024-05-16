@@ -7,13 +7,13 @@ import { EngineService } from './engine.service';
 })
 export class InitService {
   public constructor(
-    private searchService: EngineService,
+    private engineService: EngineService,
     private route: Router
   ) {}
 
   public async init() {
     // Fetch Token here!! 
-    // const res = await fetch(this.searchService.tokenEndpoint);
+    // const res = await fetch(this.engineService.tokenEndpoint);
     // const data = await res.json();
     // const {token} = data;
 
@@ -21,7 +21,7 @@ export class InitService {
     //   this.route.navigate(['error'], {state: {errorMessage: data.message}});
     //   return;
     // }
-    this.searchService.init('token');
+    this.engineService.init('token');
   }
 }
 

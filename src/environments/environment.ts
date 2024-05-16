@@ -23,16 +23,12 @@ export const environment = {
    * The unique identifier of the organization in which to generate a search token.
    * See https://docs.coveo.com/en/148/manage-an-organization/retrieve-the-organization-id
    */
-  organizationId: 'alloprofnonproduction1nrek1gh3',
+  organizationId: 'searchuisamples',
   /**
    * The environment of the Coveo platform.
    * Can be `prod`, 'hipaa', `stg', 'dev',
    */
-  platformEnvironment: 'prod',
-
-  searchEndpoint: 'http://localhost:3000/ssr/search'
-
-  
+  platformEnvironment: 'prod',  
 };
 
 /*
